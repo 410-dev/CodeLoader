@@ -1,0 +1,55 @@
+#!/bin/bash 
+
+# Write in memory
+LIB="/Library/CodeLoader"
+CONF="$LIB/conf"
+BUNDLES="$LIB/bundles"
+CACHED="$LIB/cache"
+CACHEF="$CACHED/loop.codeloaderbundlelist"
+SIGNED_ONLY="false"
+EXTENSION="loop.loaderb"
+LOADED_REPORT="/tmp/CodeLoader.Loop.LoadedBundles"
+NOT_LOADED_REPORT="/tmp/CodeLoader.Loop.ErrorBundle"
+
+sleep $(<$CONF/loop/delay)
+
+if [[ ! -f "$CACHED/loop.runpass" ]]; then
+	echo "Run pass failed. Safe mode triggered."
+	sudo touch "$CONF/boot/safeboot"
+	sudo rm -f "$CACHED/loop.runpass"
+	exit 3
+fi
+sudo rm -f "$CACHED/loop.runpass"
+
+echo "[$(date)] Entry Start" >> "$LOADED_REPORT"
+echo "[$(date)] Entry Start" >> "$NOT_LOADED_REPORT"
+
+# Run loop
+cd "$BUNDLES"
+if [[ -z "$(ls $BUNDLES/*.$EXTENSION)" ]]; then
+	echo "[$(date)] Entry End" >> "$LOADED_REPORT"
+	echo "[$(date)] Entry End" >> "$NOT_LOADED_REPORT"
+	sudo touch "$CACHED/loop.runpass"
+	sudo touch "/tmp/CodeLoader.Loop.operationComplete"
+	echo "No bundles loaded. Terminating..."
+	exit 0
+fi
+for f in *.$EXTENSION; do
+	echo "Loading $f..."
+	sudo "$f"/exec "$BUNDLES/$f"
+	EXITCODE=$?
+	if [[ $EXITCODE -ne 0 ]]; then
+		echo "ERROR: An error occured while loading $ID."
+		echo "$f" >> "$NOT_LOADED_REPORT"
+		exit -1
+	else
+		echo "$f" >> "$LOADED_REPORT"
+	fi
+done
+echo "[$(date)] Entry End" >> "$LOADED_REPORT"
+echo "[$(date)] Entry End" >> "$NOT_LOADED_REPORT"
+
+# Write flag
+sudo touch "/tmp/CodeLoader.Loop.operationComplete"
+sudo touch "$CACHED/loop.runpass"
+exit 0
