@@ -11,9 +11,14 @@ EXTENSION="boot.loaderb"
 LOADED_REPORT="/tmp/CodeLoader.Boot.LoadedBundles"
 NOT_LOADED_REPORT="/tmp/CodeLoader.Boot.ErrorBundle"
 
+if [[ ! -f "/tmp/CodeLoader.Boot.operationDone" ]]; then
+	echo "Operation not done yet."
+	exit 0
+fi
+
 if [[ ! -f "$CACHED/boot.runpass" ]]; then
 	echo "Run pass failed. Safe mode triggered."
-	sudo touch "$CONF/boot/safeboot"
+	sudo touch "$CONF/boot/safeboot_boot"
 	sudo rm -f "$CACHED/boot.runpass"
 	exit 3
 fi
@@ -49,5 +54,6 @@ echo "[$(date)] Entry End" >> "$NOT_LOADED_REPORT"
 
 # Write flag
 sudo touch "/tmp/CodeLoader.Boot.operationComplete"
+sudo touch "/tmp/CodeLoader.Boot.operationDone"
 sudo touch "$CACHED/boot.runpass"
 exit 0

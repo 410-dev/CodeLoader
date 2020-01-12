@@ -13,9 +13,16 @@ NOT_LOADED_REPORT="/tmp/CodeLoader.Loop.ErrorBundle"
 
 sleep $(<$CONF/loop/delay)
 
+if [[ ! -f "/tmp/CodeLoader.Loop.operationDone" ]]; then
+	echo "Operation not done yet."
+	exit 0
+fi
+
+sudo rm -f "/tmp/CodeLoader.Loop.operationDone"
+
 if [[ ! -f "$CACHED/loop.runpass" ]]; then
 	echo "Run pass failed. Safe mode triggered."
-	sudo touch "$CONF/boot/safeboot"
+	sudo touch "$CONF/boot/safeboot_loop"
 	sudo rm -f "$CACHED/loop.runpass"
 	exit 3
 fi
@@ -52,4 +59,5 @@ echo "[$(date)] Entry End" >> "$NOT_LOADED_REPORT"
 # Write flag
 sudo touch "/tmp/CodeLoader.Loop.operationComplete"
 sudo touch "$CACHED/loop.runpass"
+sudo touch "/tmp/CodeLoader.Loop.operationDone"
 exit 0

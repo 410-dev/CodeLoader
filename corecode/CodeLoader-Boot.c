@@ -25,7 +25,7 @@ Bundle Structure
 // Exit Status Flags
 const char* operationIncomplete = "/tmp/CodeLoader.Boot.operationIncomplete";
 const char* operationComplete = "/tmp/CodeLoader.Boot.operationComplete";
-const char* safeStart = "/Library/CodeLoader/conf/boot/safeboot";
+const char* safeStart = "/Library/CodeLoader/conf/boot/safeboot_boot";
 
 // Variables
 int exitCode = 0;
@@ -52,15 +52,15 @@ int main() {
 	}
 	if (exitCode == 0) {
 		printf("Operation Success.\n");
-		system("echo \"I:BOOT_EXIT=0\" >> /tmp/CodeLoader.Boot.Report");
+		system("echo \"I:BOOT_EXIT=CLEAN\" >> /tmp/CodeLoader.Boot.Report");
 	}else if (exitCode == 1) {
 		printf("Safemode is enabled.\n");
-		system("echo \"E:BOOT_EXIT=1\" >> /tmp/CodeLoader.Boot.Report");
+		system("echo \"E:BOOT_EXIT=SAFEMODE\" >> /tmp/CodeLoader.Boot.Report");
 	}else if (exitCode == 2) {
 		printf("Operation already finished.\n");
 	}else if (exitCode == 3) {
 		printf("Operation did not cleanly finished.\n");
-		system("echo \"E:BOOT_EXIT=3\" >> /tmp/CodeLoader.Boot.Report");
+		system("echo \"E:BOOT_EXIT=UNCLEAN_FINISH\" >> /tmp/CodeLoader.Boot.Report");
 	}
 	exitCode = 0;
 	return exitCode;
