@@ -1,0 +1,11 @@
+#!/bin/bash
+if [[ ! -z "$(ls "$container_path/"*."$async_extension" 2>/dev/null)" ]]; then
+	cd "$container_path"
+	for file in *."$async_extension"
+	do
+		log "[*] [ASYNC] Launching: $file"
+		"./$file" &
+	done
+else
+	log "[*] [ASYNC] No module found."
+fi

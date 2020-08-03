@@ -1,0 +1,11 @@
+#!/bin/bash
+if [[ ! -z "$(ls "$container_path/"*."$source_extension" 2>/dev/null)" ]]; then
+	cd "$container_path"
+	for file in *."$source_extension"
+	do
+		log "[*] [SOURCER] Sourcing: $file"
+		source "$file"
+	done
+else
+	log "[*] [SOURCER] No source found."
+fi

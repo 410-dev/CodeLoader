@@ -1,0 +1,14 @@
+# CodeLoader global functions
+
+function log() {
+	if [[ "$write_log" == "YES" ]] && [[ ! -z "$log_path" ]] ; then
+		echo "$1" >> "$log_path"
+	fi
+}
+
+function crash() {
+	echo "" > "$enter_safemode"
+}
+
+export -f log
+export -f crash

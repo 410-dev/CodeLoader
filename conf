@@ -1,0 +1,16 @@
+# CodeLoader configuration file
+
+# Usage: export [keyname]=[value]
+
+export async_extension="clasmod"
+export source_extension="moddt"
+
+export allow_async_extension="YES"
+export allow_data_sourcing="YES"
+export allow_load="YES"
+export write_log="YES"
+
+export container_path="/Library/CodeLoader/module_container"
+export enter_safemode="/Library/CodeLoader/safemode"
+export launch_done_flag="/tmp/taskd_codeloader"
+export log_path="/tmp/log_codeloader"
