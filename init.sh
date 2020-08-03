@@ -15,6 +15,7 @@ if [[ "$allow_load" == "YES" ]] && [[ ! -f "$launch_done_flag" ]]; then
 	ls -1 "$container_path" | while read module
 	do
 		chmod +x "$container_path/$module"
+		xattr -xc "$container_path/$module"
 	done
 	if [[ "$allow_data_sourcing" == "YES" ]]; then
 		log "[*] CodeLoader is copying memory data..."

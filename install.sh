@@ -5,6 +5,7 @@ if [[ -f "/Library/CodeLoader/bin/init" ]]; then
 fi
 export username="$(whoami)"
 echo "1/4: Copying Library..."
+xattr -xc "$(dirname "$0")/CodeLoader"
 sudo cp -r "$(dirname "$0")/CodeLoader" "/Library"
 echo "2/4: Adding launch daemon..."
 sudo cp "/Library/CodeLoader/bin/me.410.codeloader.plist" "/Library/LaunchDaemons"
