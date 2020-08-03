@@ -17,8 +17,8 @@ if [[ ! -f "/Library/CodeLoader/module_container/username.moddt" ]]; then
 		echo "Username cannot be root."
 		echo -n "Please enter your username (/Users/[this]): "
 		read username
-		sudo echo "export username=$username" | tee "/Library/CodeLoader/module_container/username.moddt" >/dev/null
+		sudo echo "export username=$username" | sudo tee "/Library/CodeLoader/module_container/username.moddt" >/dev/null
 	else
-		sudo echo "export username=$username" | tee "/Library/CodeLoader/module_container/username.moddt" >/dev/null
+		sudo echo "export username=$username" | sudo tee "/Library/CodeLoader/module_container/username.moddt" >/dev/null
 	fi
 fi
