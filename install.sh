@@ -1,9 +1,9 @@
 #!/bin/bash
+export username="$(whoami)"
 if [[ -f "/Library/CodeLoader/bin/init" ]]; then
 	echo "Running update mode..."
-	rm -rf "/Library/CodeLoader/bin"
+	sudo rm -rf "/Library/CodeLoader/bin"
 fi
-export username="$(whoami)"
 echo "1/4: Copying Library..."
 xattr -xc "$(dirname "$0")/CodeLoader"
 sudo cp -r "$(dirname "$0")/CodeLoader" "/Library"
@@ -17,8 +17,8 @@ if [[ ! -f "/Library/CodeLoader/module_container/username.moddt" ]]; then
 		echo "Username cannot be root."
 		echo -n "Please enter your username (/Users/[this]): "
 		read username
-		sudo echo "$username" > "/Library/CodeLoader/module_container/username.moddt"
+		sudo echo "export username=$username" | tee "/Library/CodeLoader/module_container/username.moddt" >/dev/null
 	else
-		sudo echo "$username" > "/Library/CodeLoader/module_container/username.moddt"
+		sudo echo "export username=$username" | tee "/Library/CodeLoader/module_container/username.moddt" >/dev/null
 	fi
 fi
